@@ -4,7 +4,7 @@
       <h1>🌟 Kişisel Asistan</h1>
     </header>
 
-    <!-- Mobil menü butonu -->
+   
     <button class="mobile-menu-toggle" @click="toggleMobileMenu">
       <span v-if="!isMobileMenuOpen" class="bar"></span>
       <span v-if="!isMobileMenuOpen" class="bar"></span>
@@ -12,7 +12,7 @@
       <span v-if="isMobileMenuOpen" class="close-icon">×</span>
     </button>
 
-    <!-- Navigation Bar -->
+   
     <nav :class="{ 'mobile-open': isMobileMenuOpen }">
       <ul>
         <li v-for="item in menuItems" :key="item.id" :class="{ active: activePage === item.id }" @click="setActivePage(item.id)">
@@ -58,14 +58,14 @@ export default {
         { id: 'timers', name: 'Zamanlayıcı' },
         { id: 'chatbox', name: 'Chatbox' },
       ],
-      isMobileMenuOpen: false, // Mobil menü açık mı kapalı mı
+      isMobileMenuOpen: false, 
     };
   },
   methods: {
     setActivePage(pageId) {
       this.activePage = pageId;
       if (this.isMobileMenuOpen) {
-        this.toggleMobileMenu(); // Menüyü kapat
+        this.toggleMobileMenu(); 
       }
     },
     toggleMobileMenu() {
@@ -91,7 +91,7 @@ body {
   padding: 0;
 }
 
-/* Header */
+
 header {
   background-color: #4caf50;
   color: white;
@@ -101,7 +101,7 @@ header {
   font-weight: bold;
 }
 
-/* Mobile Menu Button */
+
 .mobile-menu-toggle {
   display: none;
   background-color: transparent;
@@ -118,16 +118,16 @@ header {
   width: 30px;
   height: 4px;
   margin: 6px 0;
-  background-color: #333; /* Burada renk kırmızıya ayarlandı */
+  background-color: #333; 
   transition: 0.3s;
 }
 
 .mobile-menu-toggle .close-icon {
   font-size: 2rem;
-  color: #333; /* Kapatma ikonunun rengi kırmızıya ayarlandı */
+  color: #333; 
 }
 
-/* Navigation Bar */
+
 nav {
   background-color: #fff;
   border-bottom: 1px solid #ddd;
@@ -159,7 +159,7 @@ nav li.active {
   border-bottom: 2px solid #4caf50;
 }
 
-/* Main Content */
+
 main {
   padding: 2rem;
   max-width: 800px;
@@ -169,20 +169,19 @@ main {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Animasyonlar ve geçiş */
 main > div {
   animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Mobil Uyumlu Stil */
+
 @media (max-width: 768px) {
-  /* Mobil menü butonunu göster */
+
   .mobile-menu-toggle {
     display: block;
   }
 
   nav {
-    display: none; /* Mobilde menüyü gizle */
+    display: none; 
     flex-direction: column;
     align-items: center;
     background-color: #fff;
@@ -197,7 +196,7 @@ main > div {
   }
 
   nav.mobile-open {
-    display: flex; /* Menüyü açınca göster */
+    display: flex;
     animation: slideIn 0.3s ease-in-out;
   }
 
@@ -209,7 +208,6 @@ main > div {
     border-bottom: 1px solid #ddd;
   }
 
-  /* Ana içerik alanı daha küçük ekranlarda daha geniş olur */
   main {
     padding: 1.5rem;
     max-width: 100%;
@@ -226,7 +224,7 @@ main > div {
 }
 
 @media (max-width: 480px) {
-  /* Ekran çok küçükse, başlık font boyutunu biraz daha küçült */
+
   header {
     font-size: 1.2rem;
   }

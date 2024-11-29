@@ -8,22 +8,25 @@ const { Storage } = require('@google-cloud/storage');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const API_KEY = "AIzaSyBQqQ2p2L3X_s66qUC57RuF5Jh2gWGr55Y"; // API anahtarınızı .env dosyasına koyun
+require('dotenv').config();  
+
+const API_KEY = process.env.API_KEY;  
+
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 const storage = new Storage();
-const upload = multer({ dest: 'uploads/' }); // PDF dosyalarının yükleneceği klasör
+const upload = multer({ dest: 'uploads/' });
 
-// Public klasöründen statik dosyaları sunmak için
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Kök rotayı index.html'e yönlendirin
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// PDF dosyası yükleme rotası
+
 app.post('/upload', upload.single('file'), async (req, res) => {
   const file = req.file;
   if (!file) {
@@ -39,7 +42,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
-// AI modeli ile içerik oluşturma rotası
+
 app.post('/generate', async (req, res) => {
   const prompt = req.body.prompt;
 

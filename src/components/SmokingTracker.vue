@@ -2,19 +2,19 @@
     <div class="smoking-tracker">
       <h2>Sigara Bırakma Takibi</h2>
   
-      <!-- Sigara içmeme süresi -->
+      
       <div class="stat-card">
         <p><strong>Sigara İçmediğiniz Süre:</strong></p>
         <p class="highlight-text">{{ daysWithoutCigarette }} gün</p>
       </div>
   
-      <!-- Tasarruf Edilen Para -->
+      
       <div class="stat-card">
         <p><strong>Tasarruf Edilen Para:</strong></p>
         <p class="highlight-text">{{ moneySaved }} TL</p>
       </div>
   
-      <!-- Sağlık İyileşmesi -->
+      
       <div class="health-card">
         <p><strong>Sağlık İyileşmesi:</strong></p>
         <ul>
@@ -23,12 +23,12 @@
         </ul>
       </div>
   
-      <!-- Sigara içmeme günü kaydetme -->
+      
       <div>
         <button @click="startOver" v-if="smokedToday" class="reset-btn">Tekrar Başla</button>
       </div>
   
-      <!-- Günlük İlerleme -->
+  
       <div>
         <p><strong>Bugün Sigara İçtiğiniz Mi?</strong></p>
         <button @click="markTodayAsSmoked" class="action-btn">Evet</button>
@@ -42,27 +42,27 @@
     name: "smokingTracker",
     data() {
       return {
-        daysWithoutCigarette: 0,   // Sigara içilmeyen gün sayısı (başlangıçta 0)
-        moneySaved: 0,             // Tasarruf edilen para
-        smokedToday: false,        // Bugün sigara içildi mi?
+        daysWithoutCigarette: 0,   
+        moneySaved: 0,             
+        smokedToday: false,     
       };
     },
     methods: {
-      // Sigara içmeye başlanırsa resetle
+      
       startOver() {
         this.daysWithoutCigarette = 0;
         this.smokedToday = false;
         this.moneySaved = 0;
       },
   
-      // Sigara içmediği günü kaydet
+      
       markTodayAsNotSmoked() {
         this.smokedToday = false;
-        this.daysWithoutCigarette++;  // Sigara içmeme süresi 1 arttırılır
-        this.moneySaved += 75;         // Her gün sigara içilmeyen günde tasarruf edilen 75 TL
+        this.daysWithoutCigarette++;  
+        this.moneySaved += 75;         
       },
   
-      // Sigara içildiğinde kaydet
+      
       markTodayAsSmoked() {
         this.smokedToday = true;
         alert('Bugün sigara içtiniz, hedefinize tekrar odaklanın!');
@@ -87,7 +87,7 @@
     font-weight: bold;
   }
   
-  /* Stat Card Design (Sigara İçilmeyen Gün ve Tasarruf Bilgisi) */
+ 
   .stat-card {
     background-color: #ffffff;
     border-radius: 10px;
@@ -103,7 +103,7 @@
     font-weight: bold;
   }
   
-  /* Sağlık İyileşmesi Kartı */
+ 
   .health-card {
     background-color: #ffffff;
     border-radius: 10px;

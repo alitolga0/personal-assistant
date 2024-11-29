@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     async generateContent() {
-  if (this.userMessage.trim() === '') return; // Boş mesajı göndermemek için kontrol
+  if (this.userMessage.trim() === '') return; 
 
   try {
     const response = await fetch('http://localhost:3000/generate', {
@@ -32,17 +32,16 @@ export default {
       body: JSON.stringify({ prompt: this.userMessage }),
     });
 
-    // Sunucudan gelen yanıtı ham metin olarak alıyoruz
+   
     const responseText = await response.text();
-    console.log('Server Response:', responseText);  // Ham yanıtı konsola yazdır
+    console.log('Server Response:', responseText);  
 
-    // Yanıt geçerli ise metin olarak kullanıyoruz
+   
     if (!response.ok) {
       throw new Error(`Sunucudan geçersiz yanıt alındı: ${response.status}`);
     }
 
-    // Gelen ham metni ekranda gösteriyoruz
-    this.result = responseText || "Yanıt alınamadı";  // Yanıt alınamazsa varsayılan bir mesaj
+    this.result = responseText || "Yanıt alınamadı"; 
 
   } catch (error) {
     console.error("Hata oluştu:", error);
@@ -55,7 +54,7 @@ export default {
 </script>
 
 <style scoped>
-/* Stil bölümü */
+
 textarea {
   width: 100%;
   height: 100px;
