@@ -56,7 +56,7 @@ export default {
         { id: 'tasks', name: 'Görevler' },
         { id: 'smokingTracker', name: 'Sigara Bırakma Takibi' },
         { id: 'timers', name: 'Zamanlayıcı' },
-        { id: 'chatbox', name: 'Chatbox' },
+        { id: 'chatbox', name: 'AI Fısıltı' },
       ],
       isMobileMenuOpen: false, 
     };

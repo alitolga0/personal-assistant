@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Kişisel Asistan</h1>
+    <h1> AI Fısıltı</h1>
     <div class="chat-container">
       <div class="message-container" v-for="(message, index) in messages" :key="index">
         <div class="user-message" v-if="message.role === 'user'">

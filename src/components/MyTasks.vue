@@ -8,6 +8,7 @@
           v-model="task.completed"
           :id="'task-' + task.id"
           class="task-checkbox"
+          @change="saveToLocalStorage"
         />
         <label :for="'task-' + task.id" :class="{ completed: task.completed }">{{ task.name }}</label>
         <button @click="deleteTask(task.id)" class="delete-btn">Sil</button>
@@ -23,37 +24,46 @@
 
 <script>
 export default {
-  name: 'MyTasks',
+  name: "MyTasks",
   data() {
     return {
-      tasks: [
-        { id: 1, name: 'Ev ödevini yap', completed: false },
-        { id: 2, name: 'Alışverişe git', completed: true },
-        { id: 3, name: 'Temizlik yap', completed: false },
-      ],
-      newTaskName: '',
+      tasks: [],
+      newTaskName: "",
     };
   },
+  mounted() {
+
+    const savedTasks = localStorage.getItem("tasks");
+    if (savedTasks) {
+      this.tasks = JSON.parse(savedTasks);
+    }
+  },
   methods: {
+    saveToLocalStorage() {
+      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    },
     addTask() {
       if (this.newTaskName) {
         const newTask = {
-          id: this.tasks.length + 1,
+          id: Date.now(), 
           name: this.newTaskName,
           completed: false,
         };
         this.tasks.push(newTask);
-        this.newTaskName = '';
+        this.saveToLocalStorage(); 
+        this.newTaskName = "";
       }
     },
     deleteTask(id) {
-      this.tasks = this.tasks.filter(task => task.id !== id);
+      this.tasks = this.tasks.filter((task) => task.id !== id);
+      this.saveToLocalStorage();
     },
   },
 };
 </script>
 
 <style scoped>
+
 .tasks-container {
   max-width: 600px;
   margin: 0 auto;
@@ -127,15 +137,18 @@ label.completed {
   display: flex;
   align-items: center;
   margin-top: 20px;
+  flex-wrap: wrap; 
 }
 
 .task-input {
   flex-grow: 1;
   padding: 10px;
   margin-right: 10px;
+  margin-bottom: 10px; 
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
+  min-width: 200px; 
 }
 
 .add-btn {
@@ -147,9 +160,28 @@ label.completed {
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s;
+  min-width: 120px; 
 }
 
 .add-btn:hover {
   background-color: #45a049;
+}
+
+
+@media (max-width: 768px) {
+  .task-form {
+    flex-direction: column; 
+    align-items: stretch; 
+  }
+
+  .task-input {
+    margin-right: 0; 
+  }
+
+  .add-btn {
+    margin-top: 10px; 
+   
+    width: 100%; 
+  }
 }
 </style>

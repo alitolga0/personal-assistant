@@ -19,39 +19,48 @@
 
 <script>
 export default {
-  name:"MyHabits",
+  name: "MyHabits",
   data() {
     return {
-      habits: [
-        { id: 1, name: 'Sabah Koşusu', time: '06:00' },
-        { id: 2, name: 'Meditasyon', time: '07:00' },
-      ],
-      newHabitName: '',
-      newHabitTime: '',
+      habits: [],
+      newHabitName: "",
+      newHabitTime: "",
     };
   },
+  mounted() {
+   
+    const savedHabits = localStorage.getItem("habits");
+    if (savedHabits) {
+      this.habits = JSON.parse(savedHabits);
+    }
+  },
   methods: {
+    saveToLocalStorage() {
+      localStorage.setItem("habits", JSON.stringify(this.habits));
+    },
     addHabit() {
       if (this.newHabitName && this.newHabitTime) {
         const newHabit = {
-          id: this.habits.length + 1,
+          id: Date.now(), 
           name: this.newHabitName,
           time: this.newHabitTime,
         };
         this.habits.push(newHabit);
-        this.newHabitName = '';
-        this.newHabitTime = '';
+        this.saveToLocalStorage();
+        this.newHabitName = "";
+        this.newHabitTime = "";
       }
     },
     deleteHabit(id) {
       this.habits = this.habits.filter((habit) => habit.id !== id);
+      this.saveToLocalStorage();
     },
     editHabit(id) {
       const habit = this.habits.find((h) => h.id === id);
       if (habit) {
         this.newHabitName = habit.name;
         this.newHabitTime = habit.time;
-        this.deleteHabit(id);
+        this.deleteHabit(id); 
       }
     },
   },
@@ -59,6 +68,7 @@ export default {
 </script>
 
 <style scoped>
+
 h2 {
   text-align: center;
   margin-bottom: 1rem;

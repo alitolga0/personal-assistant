@@ -1,75 +1,109 @@
 <template>
-    <div class="smoking-tracker">
-      <h2>Sigara Bırakma Takibi</h2>
-  
-      
-      <div class="stat-card">
-        <p><strong>Sigara İçmediğiniz Süre:</strong></p>
-        <p class="highlight-text">{{ daysWithoutCigarette }} gün</p>
-      </div>
-  
-      
-      <div class="stat-card">
-        <p><strong>Tasarruf Edilen Para:</strong></p>
-        <p class="highlight-text">{{ moneySaved }} TL</p>
-      </div>
-  
-      
-      <div class="health-card">
-        <p><strong>Sağlık İyileşmesi:</strong></p>
-        <ul>
-          <li><i class="fas fa-lungs"></i> Akciğer kapasiteniz iyileşiyor!</li>
-          <li><i class="fas fa-heartbeat"></i> Kan basıncınız düşmeye başladı!</li>
-        </ul>
-      </div>
-  
-      
-      <div>
-        <button @click="startOver" v-if="smokedToday" class="reset-btn">Tekrar Başla</button>
-      </div>
-  
-  
-      <div>
-        <p><strong>Bugün Sigara İçtiğiniz Mi?</strong></p>
-        <button @click="markTodayAsSmoked" class="action-btn">Evet</button>
-        <button @click="markTodayAsNotSmoked" class="action-btn">Hayır</button>
-      </div>
+  <div class="smoking-tracker">
+    <h2>Sigara Bırakma Takibi</h2>
+
+    <div class="stat-card">
+      <p><strong>Sigara İçmediğiniz Süre:</strong></p>
+      <p class="highlight-text">{{ daysWithoutCigarette }} gün</p>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: "smokingTracker",
-    data() {
-      return {
-        daysWithoutCigarette: 0,   
-        moneySaved: 0,             
-        smokedToday: false,     
+
+    <div class="stat-card">
+      <p><strong>Tasarruf Edilen Para:</strong></p>
+      <p class="highlight-text">{{ moneySaved }} TL</p>
+    </div>
+
+    <div class="health-card">
+      <p><strong>Sağlık İyileşmesi:</strong></p>
+      <ul>
+        <li><i class="fas fa-lungs"></i> Akciğer kapasiteniz iyileşiyor!</li>
+        <li><i class="fas fa-heartbeat"></i> Kan basıncınız düşmeye başladı!</li>
+      </ul>
+    </div>
+
+    <div>
+      <button @click="startOver" v-if="smokedToday" class="reset-btn">Tekrar Başla</button>
+    </div>
+
+    <div>
+      <p><strong>Bugün Sigara İçtiğiniz Mi?</strong></p>
+      <button @click="markTodayAsSmoked" class="action-btn">Evet</button>
+      <button @click="markTodayAsNotSmoked" class="action-btn">Hayır</button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "smokingTracker",
+  data() {
+    return {
+      daysWithoutCigarette: 0,   
+      moneySaved: 0,             
+      smokedToday: false,     
+    };
+  },
+  mounted() {
+    this.loadDataFromLocalStorage();
+  },
+  methods: {
+    loadDataFromLocalStorage() {
+      const savedData = localStorage.getItem('smokingTrackerData');
+      if (savedData) {
+        const { daysWithoutCigarette, moneySaved, smokedToday } = JSON.parse(savedData);
+        this.daysWithoutCigarette = daysWithoutCigarette || 0;
+        this.moneySaved = moneySaved || 0;
+        this.smokedToday = smokedToday || false;
+      }
+    },
+
+    saveDataToLocalStorage() {
+      const data = {
+        daysWithoutCigarette: this.daysWithoutCigarette,
+        moneySaved: this.moneySaved,
+        smokedToday: this.smokedToday,
       };
+      localStorage.setItem('smokingTrackerData', JSON.stringify(data));
     },
-    methods: {
-      
-      startOver() {
-        this.daysWithoutCigarette = 0;
-        this.smokedToday = false;
-        this.moneySaved = 0;
-      },
-  
-      
-      markTodayAsNotSmoked() {
-        this.smokedToday = false;
-        this.daysWithoutCigarette++;  
-        this.moneySaved += 75;         
-      },
-  
-      
-      markTodayAsSmoked() {
-        this.smokedToday = true;
-        alert('Bugün sigara içtiniz, hedefinize tekrar odaklanın!');
-      },
+
+    startOver() {
+      this.daysWithoutCigarette = 0;
+      this.smokedToday = false;
+      this.moneySaved = 0;
+      this.saveDataToLocalStorage();
     },
-  };
-  </script>
+
+    markTodayAsNotSmoked() {
+      this.smokedToday = false;
+      this.daysWithoutCigarette++;  
+      this.moneySaved += 75;         
+      this.saveDataToLocalStorage();
+    },
+
+    markTodayAsSmoked() {
+      this.smokedToday = true;
+      alert('Bugün sigara içtiniz, hedefinize tekrar odaklanın!');
+      this.saveDataToLocalStorage();
+    },
+  },
+
+  watch: {
+    daysWithoutCigarette() {
+      this.saveDataToLocalStorage();
+    },
+    moneySaved() {
+      this.saveDataToLocalStorage();
+    },
+    smokedToday() {
+      this.saveDataToLocalStorage();
+    },
+  },
+};
+</script>
+
+
+
+
+
   
   <style scoped>
   .smoking-tracker {
@@ -128,7 +162,7 @@
     margin-right: 10px;
   }
   
-  /* Butonlar */
+
   button {
     background-color: #4caf50;
     color: white;
