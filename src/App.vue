@@ -35,9 +35,7 @@
       <div v-else-if="activePage === 'chatbox'">
         <myGemini />
       </div>
-      <div v-else-if="activePage === 'timers'">
-        <MyTimers />
-      </div>
+      
       <div v-else-if="activePage === 'weather'">
         <MyWeather />
       </div>
@@ -45,7 +43,7 @@
         <MyCalendar /> 
       </div>
       <div v-else-if="activePage === 'budgetTracker'">
-        <BudgetTracker /> <!-- Bütçe Takibi Bileşeni Burada -->
+        <BudgetTracker /> 
       </div>
     </main>
   </div>
@@ -55,7 +53,6 @@
 import MyHabits from './components/MyHabits.vue';
 import MyTasks from './components/MyTasks.vue';
 import SmokingTracker from './components/SmokingTracker.vue';
-import MyTimers from './components/MyTimers.vue';
 import myGemini from '../server/Gemini.vue';
 import MyWeather from './components/MyWeather.vue';
 import MyCalendar from './components/MyCalendar.vue';
@@ -75,7 +72,7 @@ export default {
         { id: 'budgetTracker', name: 'Bütçe Takibi' }, 
         { id: 'weather', name: 'Hava Durumu' },
         { id: 'calendar', name: 'Takvim' },
-        { id: 'timers', name: 'Zamanlayıcı' },
+       
        
       ],
       isMobileMenuOpen: false,
