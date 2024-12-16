@@ -39,7 +39,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .timer-container {
   max-width: 400px;
@@ -106,5 +105,18 @@ export default {
 
 .reset-btn:hover {
   background-color: #e53935;
+}
+
+@media (max-width: 768px) {
+  .timer-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .timer-controls button {
+    width: 100%;
+    margin: 10px 0;
+  }
 }
 </style>

@@ -4,7 +4,6 @@
       <h1>🌟 Kişisel Asistan</h1>
     </header>
 
-   
     <button class="mobile-menu-toggle" @click="toggleMobileMenu">
       <span v-if="!isMobileMenuOpen" class="bar"></span>
       <span v-if="!isMobileMenuOpen" class="bar"></span>
@@ -12,7 +11,6 @@
       <span v-if="isMobileMenuOpen" class="close-icon">×</span>
     </button>
 
-   
     <nav :class="{ 'mobile-open': isMobileMenuOpen }">
       <ul>
         <li v-for="item in menuItems" :key="item.id" :class="{ active: activePage === item.id }" @click="setActivePage(item.id)">
@@ -28,24 +26,41 @@
       <div v-else-if="activePage === 'tasks'">
         <MyTasks />
       </div>
+      <div v-else-if="activePage === 'water'">
+        <MyWater /> 
+      </div>
       <div v-else-if="activePage === 'smokingTracker'">
         <SmokingTracker />
-      </div>
-      <div v-else-if="activePage === 'timers'">
-        <MyTimers />
       </div>
       <div v-else-if="activePage === 'chatbox'">
         <myGemini />
       </div>
+      <div v-else-if="activePage === 'timers'">
+        <MyTimers />
+      </div>
+      <div v-else-if="activePage === 'weather'">
+        <MyWeather />
+      </div>
+      <div v-else-if="activePage === 'calendar'">
+        <MyCalendar /> 
+      </div>
+      <div v-else-if="activePage === 'budgetTracker'">
+        <BudgetTracker /> <!-- Bütçe Takibi Bileşeni Burada -->
+      </div>
     </main>
   </div>
 </template>
+
 <script>
 import MyHabits from './components/MyHabits.vue';
 import MyTasks from './components/MyTasks.vue';
 import SmokingTracker from './components/SmokingTracker.vue';
 import MyTimers from './components/MyTimers.vue';
 import myGemini from '../server/Gemini.vue';
+import MyWeather from './components/MyWeather.vue';
+import MyCalendar from './components/MyCalendar.vue';
+import MyWater from './components/MyWater.vue'; // MyWater bileşenini buraya import ediyoruz
+import BudgetTracker from './components/BudgetTracker.vue'; // BudgetTracker bileşenini buraya import ediyoruz
 
 export default {
   data() {
@@ -54,11 +69,16 @@ export default {
       menuItems: [
         { id: 'habits', name: 'Alışkanlıklar' },
         { id: 'tasks', name: 'Görevler' },
+        { id: 'water', name: 'Su Takibi' }, 
         { id: 'smokingTracker', name: 'Sigara Bırakma Takibi' },
-        { id: 'timers', name: 'Zamanlayıcı' },
         { id: 'chatbox', name: 'AI Fısıltı' },
+        { id: 'budgetTracker', name: 'Bütçe Takibi' }, 
+        { id: 'weather', name: 'Hava Durumu' },
+        { id: 'calendar', name: 'Takvim' },
+        { id: 'timers', name: 'Zamanlayıcı' },
+       
       ],
-      isMobileMenuOpen: false, 
+      isMobileMenuOpen: false,
     };
   },
   methods: {
@@ -76,13 +96,20 @@ export default {
     MyHabits,
     MyTasks,
     SmokingTracker,
+    MyWater,
     MyTimers,
     myGemini,
+    MyWeather,
+    MyCalendar,
+    BudgetTracker, // Bütçe Takibi bileşenini dahil ediyoruz
   },
 };
 </script>
+
+
+
+
 <style scoped>
-/* Temel gövde stilleri */
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #f9fafc;
@@ -90,7 +117,6 @@ body {
   margin: 0;
   padding: 0;
 }
-
 
 header {
   background-color: #4caf50;
@@ -100,7 +126,6 @@ header {
   font-size: 1.8rem;
   font-weight: bold;
 }
-
 
 .mobile-menu-toggle {
   display: none;
@@ -113,20 +138,22 @@ header {
   z-index: 10;
 }
 
-.mobile-menu-toggle .bar {
+.mobile-menu-toggle .bar,
+.mobile-menu-toggle .close-icon {
   display: block;
-  width: 30px;
-  height: 4px;
-  margin: 6px 0;
   background-color: #333; 
   transition: 0.3s;
 }
 
-.mobile-menu-toggle .close-icon {
-  font-size: 2rem;
-  color: #333; 
+.mobile-menu-toggle .bar {
+  width: 30px;
+  height: 4px;
+  margin: 6px 0;
 }
 
+.mobile-menu-toggle .close-icon {
+  font-size: 2rem;
+}
 
 nav {
   background-color: #fff;
@@ -159,7 +186,6 @@ nav li.active {
   border-bottom: 2px solid #4caf50;
 }
 
-
 main {
   padding: 2rem;
   max-width: 800px;
@@ -173,9 +199,7 @@ main > div {
   animation: fadeIn 0.5s ease-in-out;
 }
 
-
 @media (max-width: 768px) {
-
   .mobile-menu-toggle {
     display: block;
   }
@@ -214,17 +238,7 @@ main > div {
   }
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
 @media (max-width: 480px) {
-
   header {
     font-size: 1.2rem;
   }
@@ -232,6 +246,15 @@ main > div {
   nav li {
     font-size: 1.2rem;
     padding: 1rem;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 
@@ -246,3 +269,4 @@ main > div {
   }
 }
 </style>
+

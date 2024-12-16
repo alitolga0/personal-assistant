@@ -40,6 +40,7 @@ export default {
       daysWithoutCigarette: 0,   
       moneySaved: 0,             
       smokedToday: false,     
+      lastSmokedDate: null,  // Son sigara içme tarihi
     };
   },
   mounted() {
@@ -49,10 +50,11 @@ export default {
     loadDataFromLocalStorage() {
       const savedData = localStorage.getItem('smokingTrackerData');
       if (savedData) {
-        const { daysWithoutCigarette, moneySaved, smokedToday } = JSON.parse(savedData);
+        const { daysWithoutCigarette, moneySaved, smokedToday, lastSmokedDate } = JSON.parse(savedData);
         this.daysWithoutCigarette = daysWithoutCigarette || 0;
         this.moneySaved = moneySaved || 0;
         this.smokedToday = smokedToday || false;
+        this.lastSmokedDate = lastSmokedDate || null;
       }
     },
 
@@ -61,6 +63,7 @@ export default {
         daysWithoutCigarette: this.daysWithoutCigarette,
         moneySaved: this.moneySaved,
         smokedToday: this.smokedToday,
+        lastSmokedDate: this.lastSmokedDate,
       };
       localStorage.setItem('smokingTrackerData', JSON.stringify(data));
     },
@@ -69,19 +72,26 @@ export default {
       this.daysWithoutCigarette = 0;
       this.smokedToday = false;
       this.moneySaved = 0;
+      this.lastSmokedDate = null;
       this.saveDataToLocalStorage();
     },
 
     markTodayAsNotSmoked() {
-      this.smokedToday = false;
-      this.daysWithoutCigarette++;  
-      this.moneySaved += 75;         
-      this.saveDataToLocalStorage();
+      const currentDate = new Date().toISOString().split('T')[0];  // Bugünün tarihi (yyyy-mm-dd formatında)
+      
+      if (this.lastSmokedDate !== currentDate) {
+        this.smokedToday = false;
+        this.daysWithoutCigarette++;  // Bir gün ekle
+        this.moneySaved += 75;         // Para tasarrufu
+        this.lastSmokedDate = currentDate; // Son sigara içme tarihi güncellenir
+        this.saveDataToLocalStorage();
+      }
     },
 
     markTodayAsSmoked() {
       this.smokedToday = true;
       alert('Bugün sigara içtiniz, hedefinize tekrar odaklanın!');
+      this.lastSmokedDate = null;  // Son sigara içme tarihi sıfırlanır
       this.saveDataToLocalStorage();
     },
   },
@@ -100,105 +110,96 @@ export default {
 };
 </script>
 
+<style scoped>
+.smoking-tracker {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
 
+.smoking-tracker h2 {
+  text-align: center;
+  color: #4caf50;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
 
+.stat-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 
+.highlight-text {
+  font-size: 2rem;
+  color: #4caf50;
+  font-weight: bold;
+}
 
-  
-  <style scoped>
-  .smoking-tracker {
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .smoking-tracker h2 {
-    text-align: center;
-    color: #4caf50;
-    font-size: 1.8rem;
-    font-weight: bold;
-  }
-  
- 
-  .stat-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .highlight-text {
-    font-size: 2rem;
-    color: #4caf50;
-    font-weight: bold;
-  }
-  
- 
-  .health-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .health-card ul {
-    list-style: none;
-    padding: 0;
-    font-size: 1.1rem;
-    color: #333;
-  }
-  
-  .health-card li {
-    margin-bottom: 10px;
-  }
-  
-  .health-card i {
-    color: #4caf50;
-    margin-right: 10px;
-  }
-  
+.health-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-  button {
-    background-color: #4caf50;
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  .reset-btn {
-    background-color: #ff9800;
-  }
-  
-  .reset-btn:hover {
-    background-color: #f57c00;
-  }
-  
-  .action-btn {
-    width: 48%;
-    display: inline-block;
-    margin-right: 2%;
-  }
-  
-  input {
-    padding: 8px;
-    margin: 10px 0;
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  </style>
-  
+.health-card ul {
+  list-style: none;
+  padding: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.health-card li {
+  margin-bottom: 10px;
+}
+
+.health-card i {
+  color: #4caf50;
+  margin-right: 10px;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.reset-btn {
+  background-color: #ff9800;
+}
+
+.reset-btn:hover {
+  background-color: #f57c00;
+}
+
+.action-btn {
+  width: 48%;
+  display: inline-block;
+  margin-right: 2%;
+}
+
+input {
+  padding: 8px;
+  margin: 10px 0;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+</style>
