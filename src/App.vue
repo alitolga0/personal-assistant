@@ -56,8 +56,8 @@ import SmokingTracker from './components/SmokingTracker.vue';
 import myGemini from '../server/Gemini.vue';
 import MyWeather from './components/MyWeather.vue';
 import MyCalendar from './components/MyCalendar.vue';
-import MyWater from './components/MyWater.vue'; // MyWater bileşenini buraya import ediyoruz
-import BudgetTracker from './components/BudgetTracker.vue'; // BudgetTracker bileşenini buraya import ediyoruz
+import MyWater from './components/MyWater.vue'; 
+import BudgetTracker from './components/BudgetTracker.vue'; 
 
 export default {
   data() {
@@ -94,11 +94,11 @@ export default {
     MyTasks,
     SmokingTracker,
     MyWater,
-    MyTimers,
+
     myGemini,
     MyWeather,
     MyCalendar,
-    BudgetTracker, // Bütçe Takibi bileşenini dahil ediyoruz
+    BudgetTracker, 
   },
 };
 </script>
